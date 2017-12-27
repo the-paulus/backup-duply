@@ -1,12 +1,12 @@
-Role Name
+Backup Duply
 =========
 
-A brief description of the role goes here.
+Installs and configures duplicity and duply to perform scheduled backups.
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+
 
 Role Variables
 --------------
@@ -37,12 +37,23 @@ backup_duply_profiles:
       excludes:
         - */.local/share/Trash
         - */Dropbox
+      pre: >
+        WORKDIR="/tmp"
+      post: >
+        WORKDIR="/tmp"
+      cron_job:
+        task: "backup"
+        day: "*"
+        hour: "0"
+        minute: "0"
+        month: "*"
+        weekday: "*"
 ```
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+None
 
 Example Playbook
 ----------------
