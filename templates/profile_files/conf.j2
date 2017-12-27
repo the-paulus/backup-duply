@@ -17,12 +17,15 @@ GPG_OPTS='{{ item.value.gpg_opts }}'
 {% endif %}
 
 TARGET='{{ item.value.target }}'
-
+{% if item.value.target_user is defined %}
 TARGET_USER='{{ item.value.target_user }}'
+{% endif %}
+{% if item.value.target_pass is defined %}
 TARGET_PASS='{{ item.value.target_pass }}'
+{% endif %}
 
 SOURCE='{{ item.value.source }}'
-{% if is defined duply_precmd %}
+{% if item.value.duply_precmd is defined %}
 DUPL_PRECMD={{ item.value.duply_precmd }}
 {% endif %}
 
@@ -30,7 +33,7 @@ MAX_AGE='{{ item.value.max_age }}'
 MAX_FULL_BACKUPS='{{ item.value.max_full_backups }}'
 MAX_FULLS_WITH_INCRS={{ item.value.max_fulls_with_incrementals }}
 
-{% if is defined item.value.exclude_filename %}
+{% if item.value.exclude_filename is defined %}
 FILENAME='{{ item.value.exclude_filename }}'
 DUPL_PARAMS="$DUPL_PARAMS --exclude-if-present '$FILENAME'"
 {% endif %}
@@ -42,8 +45,9 @@ VOLSIZE={{ item.value.volume_size }}
 DUPL_PARAMS="$DUPL_PARAMS --volsize $VOLSIZE "
 
 TEMP_DIR={{ item.value.temp_dir }}
-
+{% if item.value.arch_dir is defined %}
 ARCH_DIR={{ item.value.arch_dir }}
+{% endif %}
 
 {% if item.value.options is defined %}
 DUPL_PARAMS="$DUPL_PARAMS {{ item.value.options }}"
