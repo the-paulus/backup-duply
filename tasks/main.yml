@@ -49,3 +49,17 @@
     mode: "0600"
   with_dict: "{{ backup_duply_profiles }}"
   when: item.value.excludes is defined and item.value.excludes
+
+- name: Create cron job for profile
+  cron:
+    name: "{{ item.key }}-backup"
+    job: "duply {{ item.key }} {{ item.value.cron_job.task }}"
+    day: "{{ item.value.cron_job.day }}"
+    hour: "{{ item.value.cron_job.hour }}"
+    minute: "{{ item.value.cron_job.minute }}"
+    month: "{{ item.value.cron_job.month }}"
+    weekday: "{{ item.value.cron_job.weekday }}"
+    cron_file: "backup-duply"
+    user: root
+  with_dict: "{{ backup_duply_profiles }}"
+  when: item.value.cron_job is defined
