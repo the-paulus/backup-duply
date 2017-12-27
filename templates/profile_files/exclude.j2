@@ -2,6 +2,6 @@
 
 {% if item.value.excludes is defined %}
 {% for exclude in item.value.excludes %}
-{{ exclude }}
+- {{ exclude }}
 {% endfor %}
 {% endif %}
