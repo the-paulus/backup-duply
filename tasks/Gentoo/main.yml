@@ -1,0 +1,11 @@
+---
+- name: Enable useflags
+  shell: "euse -E -p app-backup/duplicity s3"
+
+- name: Install duply and duplicity packages
+  portage:
+    sync: yes
+    keepgoing: yes
+    package: "{{ item }}"
+    state: present
+  with_items: "{{ backup_duply_packages }}"

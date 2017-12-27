@@ -1,0 +1,11 @@
+---
+- name: "Include tasks for {{ ansible_os_family }} - {{ ansible_distribution }}"
+  include_tasks: "{{ ansible_distribution }}/main.yml"
+
+- name: Install duply and duplicity packages.
+  apt:
+    update_cache: yes
+    name: "{{ item }}"
+    state: present
+    install_recommends: yes
+  with_items: "{{ backup_duply_packages }}"

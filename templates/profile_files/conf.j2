@@ -1,0 +1,50 @@
+# {{ ansible_managed }}
+
+GPG_KEY='{{ item.value.gpg_key | default('disabled') }}'
+GPG_PW='{{ item.value.gpg_pw | default('') }}'
+GPG_OPTS='{{ item.value.gpg_opts | default('') }}'
+{% if gpg_keys_enc is defined %}
+GPG_KEYS_ENC='{{ item.value.gpg_keys_enc }}'
+{% endif %}
+{% if item.value.gpg_key_sign is defined %}
+GPG_KEY_SIGN='{{ item.value.gpg_key_sign }}'
+{% endif %}
+{% if item.value.gpg_pw_sign is defined %}
+GPG_PW_SIGN='{{ item.value.gpg_pw_sign }}'
+{% endif %}
+{% if item.value.gpg_opts is defined %}
+GPG_OPTS='{{ item.value.gpg_opts }}'
+{% endif %}
+
+TARGET='{{ item.value.target }}'
+
+TARGET_USER='{{ item.value.target_user }}'
+TARGET_PASS='{{ item.value.target_pass }}'
+
+SOURCE='{{ item.value.source }}'
+{% if is defined duply_precmd %}
+DUPL_PRECMD={{ item.value.duply_precmd }}
+{% endif %}
+
+MAX_AGE='{{ item.value.max_age }}'
+MAX_FULL_BACKUPS='{{ item.value.max_full_backups }}'
+MAX_FULLS_WITH_INCRS={{ item.value.max_fulls_with_incrementals }}
+
+{% if is defined item.value.exclude_filename %}
+FILENAME='{{ item.value.exclude_filename }}'
+DUPL_PARAMS="$DUPL_PARAMS --exclude-if-present '$FILENAME'"
+{% endif %}
+
+MAX_FULLBKP_AGE={{ item.value.max_full_backup_age }}
+DUPL_PARAMS="$DUPL_PARAMS --full-if-older-than $MAX_FULLBKP_AGE "
+
+VOLSIZE={{ item.value.volume_size }}
+DUPL_PARAMS="$DUPL_PARAMS --volsize $VOLSIZE "
+
+TEMP_DIR={{ item.value.temp_dir }}
+
+ARCH_DIR={{ item.value.arch_dir }}
+
+{% if item.value.options is defined %}
+DUPL_PARAMS="$DUPL_PARAMS {{ item.value.options }}"
+{% endif %}

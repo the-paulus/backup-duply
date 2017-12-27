@@ -1,0 +1,51 @@
+---
+- name: "Include tasks for {{ ansible_os_family }}"
+  include_tasks: "{{ ansible_os_family }}/main.yml"
+
+- name: Create profile directories
+  file:
+    path: "{{ backup_duply_profile_directory }}/{{ item.key }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "0700"
+  with_dict: "{{ backup_duply_profiles }}"
+
+- name: Create profile configuration file
+  template:
+    src: "conf.j2"
+    dest: "{{ backup_duply_profile_directory }}/{{ item.key }}/conf"
+    owner: root
+    group: root
+    mode: "0600"
+  with_dict: "{{ backup_duply_profiles }}"
+
+- name: Create profile pre file
+  template:
+    src: "pre.j2"
+    dest: "{{ backup_duply_profile_directory }}/{{ item.key }}/pre"
+    owner: root
+    group: root
+    mode: "0600"
+  with_dict: "{{ backup_duply_profiles }}"
+  when: item.value.pre is defined and item.value.pre
+
+- name: Create profile post file
+  template:
+    src: "post.j2"
+    dest: "{{ backup_duply_profile_directory }}/{{ item.key }}/post"
+    owner: root
+    group: root
+    mode: "0600"
+  with_dict: "{{ backup_duply_profiles }}"
+  when: item.value.post is defined and item.value.post
+
+- name: Create profile excludes file
+  template:
+    src: "exclude.j2"
+    dest: "{{ backup_duply_profile_directory }}/{{ item.key }}/exclude"
+    owner: root
+    group: root
+    mode: "0600"
+  with_dict: "{{ backup_duply_profiles }}"
+  when: item.value.exclude is defined and item.value.exclude

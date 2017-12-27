@@ -1,0 +1,7 @@
+---
+backup_duply_packages:
+  - duply
+  - duplicity
+
+backup_duply_profile_directory: /etc/duply
+backup_duply_lock_directory: "/tmp/backup-duply.lock"
