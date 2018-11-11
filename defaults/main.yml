@@ -1,2 +1,6 @@
 ---
-# defaults file for skeleton
+backup_duply_global_exclude:
+ - "- **/error*"
+ - "- **/.local/share/Trash/*"
+ - "- **/.vagrant.d/*"
+ - "- **/.local/share/JetBrains/*"
